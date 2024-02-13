@@ -24,15 +24,13 @@ def base_install_modules(module_name):
     # depends
     if counter == 1:
         for module in modules:
-            # Check if apt-fast is available, otherwise use apt-get
-            try:
+            # Check if `apt-fast` is available, otherwise use apt-get
+            if subprocess.Popen("which apt-fast", shell=True).wait() == 0:
                 command = ("apt-fast -y install " + module)
-                subprocess.Popen("export DEBIAN_FRONTEND=noninteractive;%s" %
-                                 command, shell=True).wait()
-            except:
+            else:
                 command = ("apt-get -q --allow-downgrades --allow-remove-essential --allow-change-held-packages -y install " + module)
-                subprocess.Popen("export DEBIAN_FRONTEND=noninteractive;%s" %
-                                 command, shell=True).wait()
+            subprocess.Popen("export DEBIAN_FRONTEND=noninteractive;%s" %
+                            command, shell=True).wait()
     else:
         command = ("apt-get -q --allow-downgrades --allow-remove-essential --allow-change-held-packages -y install " + modules)
         subprocess.Popen("export DEBIAN_FRONTEND=noninteractive;%s" %
