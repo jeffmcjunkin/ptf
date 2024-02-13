@@ -25,7 +25,7 @@ def base_install_modules(module_name):
     if counter == 1:
         for module in modules:
             # Check if `apt-fast` is available, otherwise use apt-get
-            if subprocess.Popen("which apt-fast", shell=True).wait() == 0:
+            if subprocess.Popen("which apt-fast >/dev/null", shell=True).wait() == 0:
                 command = ("apt-fast -y install " + module)
             else:
                 command = ("apt-get -q --allow-downgrades --allow-remove-essential --allow-change-held-packages -y install " + module)
